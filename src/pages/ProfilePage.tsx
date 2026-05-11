@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export const ProfilePage = () => {
 	const { user } = useAuth();
-	const [favorites, setFavorites] = useState<string[]>(['o1', 'o2']);
+	const [favorites, _] = useState<string[]>(['o1', 'o2']);
 
 	if (!user) return null;
 
