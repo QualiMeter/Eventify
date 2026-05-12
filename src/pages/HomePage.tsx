@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import type { Event } from '../types';
 import { EventCatalog } from '../components/events/EventCatalog';
 import { Calendar, Users, Award, Zap } from 'lucide-react';
@@ -64,6 +66,35 @@ const mockEvents: Event[] = [
 ];
 
 export const HomePage = () => {
+	const features = [
+		{ icon: <Calendar className="w-6 h-6 text-blue-600" />, title: 'Актуальные события', description: 'Находите мероприятия по интересам, дате и формату проведения' },
+		{ icon: <Users className="w-6 h-6 text-blue-600" />, title: 'Удобная запись', description: 'Записывайтесь в один клик, получайте уведомления и сертификаты' },
+		{ icon: <Award className="w-6 h-6 text-blue-600" />, title: 'Для организаторов', description: 'Создавайте события, управляйте заявками и отслеживайте статистику' },
+		{ icon: <Zap className="w-6 h-6 text-blue-600" />, title: 'Автоматизация', description: 'Уведомления, напоминания и интеграция с календарём' },
+	];
+
+	// Эмбла карусель для мобильных
+	const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
+	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+	const onSelect = useCallback(() => {
+		if (!emblaApi) return;
+		setSelectedIndex(emblaApi.selectedScrollSnap());
+	}, [emblaApi]);
+
+	useEffect(() => {
+		if (!emblaApi) return;
+		onSelect();
+		setScrollSnaps(emblaApi.scrollSnapList());
+		emblaApi.on('select', onSelect);
+		emblaApi.on('reInit', onSelect);
+		return () => {
+			emblaApi.off('select', onSelect);
+			emblaApi.off('reInit', onSelect);
+		};
+	}, [emblaApi, onSelect]);
+
 	return (
 		<>
 			{/* Приветственный блок */}
@@ -78,28 +109,35 @@ export const HomePage = () => {
 						</p>
 					</div>
 
-					{/* Преимущества */}
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-						<FeatureCard
-							icon={<Calendar className="w-6 h-6 text-blue-600" />}
-							title="Актуальные события"
-							description="Находите мероприятия по интересам, дате и формату проведения"
-						/>
-						<FeatureCard
-							icon={<Users className="w-6 h-6 text-blue-600" />}
-							title="Удобная запись"
-							description="Записывайтесь в один клик, получайте уведомления и сертификаты"
-						/>
-						<FeatureCard
-							icon={<Award className="w-6 h-6 text-blue-600" />}
-							title="Для организаторов"
-							description="Создавайте события, управляйте заявками и отслеживайте статистику"
-						/>
-						<FeatureCard
-							icon={<Zap className="w-6 h-6 text-blue-600" />}
-							title="Автоматизация"
-							description="Уведомления, напоминания и интеграция с календарём"
-						/>
+					{/* ✅ Мобильная карусель */}
+					<div className="md:hidden">
+						<div className="overflow-hidden" ref={emblaRef}>
+							<div className="flex -ml-4">
+								{features.map((feature, i) => (
+									<div key={i} className="flex-[0_0_100%] min-w-0 pl-4">
+										<FeatureCard icon={feature.icon} title={feature.title} description={feature.description} />
+									</div>
+								))}
+							</div>
+						</div>
+						<div className="flex justify-center gap-2 mt-4">
+							{scrollSnaps.map((_, i) => (
+								<button
+									key={i}
+									onClick={() => emblaApi?.scrollTo(i)}
+									className={`h-1.5 rounded-full transition-all duration-300 ${i === selectedIndex ? 'w-4 bg-blue-600' : 'w-1.5 bg-gray-300'
+										}`}
+									aria-label={`Перейти к слайду ${i + 1}`}
+								/>
+							))}
+						</div>
+					</div>
+
+					{/* ✅ Десктопная сетка */}
+					<div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+						{features.map((feature, i) => (
+							<FeatureCard key={i} icon={feature.icon} title={feature.title} description={feature.description} />
+						))}
 					</div>
 				</div>
 			</div>
@@ -114,7 +152,7 @@ export const HomePage = () => {
 };
 
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
-	<div className="flex gap-4 p-4 rounded-lg hover:bg-gray-50 transition">
+	<div className="flex gap-4 p-4 rounded-lg hover:bg-gray-50 transition bg-gray-50/50 border border-gray-100 md:border-0 md:bg-transparent md:hover:bg-gray-50">
 		<div className="shrink-0 w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
 			{icon}
 		</div>
