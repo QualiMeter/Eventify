@@ -16,7 +16,7 @@ const mockEvents: Event[] = [
 		organizerName: 'WebDev Community',
 		selectionMethod: 'free',
 		registeredCount: 45,
-		image: '/public/img/95FXM.jpg'
+		image: '/img/95FXM.jpg'
 	},
 	{
 		id: '2',
@@ -31,7 +31,7 @@ const mockEvents: Event[] = [
 		selectionMethod: 'moderation',
 		registeredCount: 12,
 		maxParticipants: 50,
-		image: '/public/img/pTL3O.jpg'
+		image: '/img/pTL3O.jpg'
 	},
 	{
 		id: '3',
@@ -45,7 +45,7 @@ const mockEvents: Event[] = [
 		organizerName: 'WebDev Community',
 		selectionMethod: 'free',
 		registeredCount: 89,
-		image: '/public/img/onawK.jpg'
+		image: '/img/onawK.jpg'
 	},
 	{
 		id: '4',
@@ -60,7 +60,7 @@ const mockEvents: Event[] = [
 		selectionMethod: 'free',
 		registeredCount: 67,
 		maxParticipants: 100,
-		image: '/public/img/keoqi.jpg'
+		image: '/img/keoqi.jpg'
 	},
 ];
 
