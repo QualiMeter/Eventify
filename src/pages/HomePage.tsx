@@ -50,10 +50,8 @@ export const HomePage = () => {
 				</div>
 			</div>
 
-			{/* Карусель */}
 			<EventCarousel events={mockEvents} />
 
-			{/* Каталог */}
 			<div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
 				<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
 					<h2 className="text-xl font-semibold">Каталог событий</h2>
