@@ -163,15 +163,15 @@ export const EventCatalog = ({ initialEvents }: EventCatalogProps) => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                         {/* Фильтр по формату */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Формат</label>
+                        <div className="md:col-span-5">
+                            <label className="block text-sm font-medium text-gray-700 mb-2 h-5">&nbsp;</label>
                             <div className="flex gap-2">
                                 <button
                                     type="button"
                                     onClick={() => toggleFormat('online')}
-                                    className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition ${
+                                    className={`flex-1 px-4 h-[42px] rounded-lg font-medium text-sm transition ${
                                         formatFilter.has('online')
                                             ? 'bg-blue-600 text-white'
                                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
@@ -182,7 +182,7 @@ export const EventCatalog = ({ initialEvents }: EventCatalogProps) => {
                                 <button
                                     type="button"
                                     onClick={() => toggleFormat('offline')}
-                                    className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition ${
+                                    className={`flex-1 px-4 h-[42px] rounded-lg font-medium text-sm transition ${
                                         formatFilter.has('offline')
                                             ? 'bg-blue-600 text-white'
                                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
@@ -194,27 +194,29 @@ export const EventCatalog = ({ initialEvents }: EventCatalogProps) => {
                         </div>
 
                         {/* Дата от */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Дата от</label>
+                        <div className="md:col-span-3">
+                            <label className="block text-sm font-medium text-gray-700 mb-2 h-5">&nbsp;</label>
                             <input
                                 type="date"
                                 value={dateFrom}
                                 onChange={(e) => setDateFrom(e.target.value)}
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                className="w-full px-4 h-[42px] bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             />
                         </div>
 
                         {/* Дата до */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Дата до</label>
+                        <div className="md:col-span-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2 h-5">&nbsp;</label>
                             <input
                                 type="date"
                                 value={dateTo}
                                 onChange={(e) => setDateTo(e.target.value)}
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                className="w-full px-4 h-[42px] bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             />
                         </div>
                     </div>
+
+
 
                     {/* Кнопки */}
                     <div className="flex gap-3 pt-2">
