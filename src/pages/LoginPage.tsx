@@ -9,8 +9,11 @@ export const LoginPage = () => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Auth
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // Profile
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
@@ -51,12 +54,25 @@ export const LoginPage = () => {
     }
   };
 
+  // Плавное изменение ширины контейнера
   const containerWidth = mode === 'login' ? '480px' : '896px';
-  const rightColumnClasses = `transition-[max-height,opacity,transform] duration-500 ease-out overflow-hidden ${mode === 'register' ? 'max-h-[600px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4 pointer-events-none'}`;
+
+  // ✅ Симметричная анимация: работает одинаково плавно в обе стороны
+  const rightColumnClasses = `
+    transition-[max-height,opacity,transform] duration-500 ease-in-out overflow-hidden
+    ${mode === 'register'
+      ? 'max-h-[600px] opacity-100 translate-y-0'
+      : 'max-h-0 opacity-0 -translate-y-4 pointer-events-none'
+    }
+  `;
 
   return (
     <div className="min-h-[calc(100vh-120px)] flex items-center justify-center px-4 py-8">
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl w-full p-5 md:p-8 space-y-6" style={{ maxWidth: containerWidth, transition: 'max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white border border-gray-200 rounded-xl w-full p-5 md:p-8 space-y-6"
+        style={{ maxWidth: containerWidth, transition: 'max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1)' }}
+      >
         <div className="text-center">
           <h2 className="text-2xl font-bold">{mode === 'login' ? 'Вход в Eventify' : 'Создание аккаунта'}</h2>
           <p className="text-gray-500 text-sm mt-1">{mode === 'login' ? 'Введите email и пароль' : 'Заполните данные профиля'}</p>
@@ -64,9 +80,13 @@ export const LoginPage = () => {
 
         {error && <p className="text-red-600 text-sm bg-red-50 p-2 rounded border border-red-200">{error}</p>}
 
+        {/* Сетка с плавной адаптацией колонок */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-          <div className={`space-y-4 transition-all duration-500 ${mode === 'register' ? 'lg:col-span-1' : 'lg:col-span-2'}`}>
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide flex items-center gap-2"><Lock size={14} /> Учётные данные</h3>
+          <div className={`space-y-4 transition-all duration-500 ease-in-out ${mode === 'register' ? 'lg:col-span-1' : 'lg:col-span-2'
+            }`}>
+            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide flex items-center gap-2">
+              <Lock size={14} /> Учётные данные
+            </h3>
             <div>
               <label className="block text-sm font-medium mb-1">Email</label>
               <div className="relative">
@@ -88,12 +108,17 @@ export const LoginPage = () => {
 
           <div className={rightColumnClasses}>
             <div className="space-y-4 pt-4 border-t border-gray-100 lg:border-t-0 lg:border-l lg:pl-6">
-              <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide flex items-center gap-2"><User size={14} /> Личные данные</h3>
+              <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide flex items-center gap-2">
+                <User size={14} /> Личные данные
+              </h3>
               <div className="space-y-3">
-                {/* ✅ required теперь зависит от режима */}
-                <div><label className="block text-sm font-medium mb-1">Фамилия</label><input type="text" required={mode === 'register'} value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иванов" /></div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Фамилия</label>
+                  <input type="text" required={mode === 'register'} value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иванов" />
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* ✅ Вертикальный стек: поля теперь занимают всю ширину формы */}
+                <div className="flex flex-col gap-3">
                   <div>
                     <label className="block text-sm font-medium mb-1">Имя</label>
                     <input type="text" required={mode === 'register'} value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иван" />

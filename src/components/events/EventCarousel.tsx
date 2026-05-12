@@ -60,8 +60,9 @@ export const EventCarousel = ({ events }: EventCarouselProps) => {
 		<div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-10">
 			<div className="relative">
 				{/* Viewport карусели */}
-				<div className="overflow-hidden" ref={emblaRef}>
-					<div className="flex">
+				<div className="overflow-hidden py-8" ref={emblaRef}>
+					{/* ✅ py-4 внутри трека даёт безопасную зону для scale и translateY */}
+					<div className="flex py-4">
 						{events.map((event, i) => {
 							const isActive = i === selectedIndex;
 							return (
@@ -69,8 +70,9 @@ export const EventCarousel = ({ events }: EventCarouselProps) => {
 									key={event.id}
 									className="flex-[0_0_100%] sm:flex-[0_0_85%] lg:flex-[0_0_60%] min-w-0 px-2"
 								>
+									{/* ✅ Убран border-gray-200, оставлен только скруглённый фон */}
 									<div
-										className="bg-white border border-gray-200 rounded-xl h-full flex flex-col p-5 transition-all duration-500 ease-out"
+										className="bg-white rounded-xl h-full flex flex-col p-5 transition-all duration-500 ease-out"
 										style={{
 											transform: isActive ? 'scale(1.03) translateY(-4px)' : 'scale(0.95) translateY(0)',
 											opacity: isActive ? 1 : 0.45,
@@ -116,7 +118,7 @@ export const EventCarousel = ({ events }: EventCarouselProps) => {
 					</div>
 				</div>
 
-				{/* ✅ Мягкое затухание по краям (адаптивная ширина + плавный градиент) */}
+				{/* Градиентные маски для плавного затухания */}
 				<div className="absolute inset-y-0 left-0 w-5 sm:w-8 md:w-12 lg:w-20 bg-gradient-to-r from-gray-50 via-gray-50/60 to-transparent pointer-events-none z-10" />
 				<div className="absolute inset-y-0 right-0 w-5 sm:w-8 md:w-12 lg:w-20 bg-gradient-to-l from-gray-50 via-gray-50/60 to-transparent pointer-events-none z-10" />
 			</div>
