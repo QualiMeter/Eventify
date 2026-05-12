@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ChevronLeft, ChevronRight, CalendarDays, MapPin } from 'lucide-react';
 import type { Event } from '../../types';
 
+
 interface EventCarouselProps {
 	events: Event[];
 }
@@ -78,7 +79,7 @@ export const EventCarousel = ({ events }: EventCarouselProps) => {
 											opacity: isActive ? 1 : 0.45,
 										}}
 									>
-										<div className="h-40 bg-gray-50 rounded-lg relative overflow-hidden mb-3">
+										<div className="h-40 sm:h-48 md:h-56 lg:h-64 bg-gray-50 rounded-lg relative overflow-hidden mb-3">
 											{event.image ? (
 												<img src={event.image} alt={event.title} className="w-full h-full object-cover" />
 											) : (

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios';
-import type { LoginPayload, AuthResponse } from '../types';
+import type { LoginPayload, AuthResponse, Event } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5155/api';
 
@@ -33,4 +33,40 @@ api.interceptors.response.use(
 export const loginApi = async (payload: LoginPayload): Promise<AuthResponse> => {
 	const { data } = await api.post<AuthResponse>('/auth/login', payload);
 	return data;
+};
+export interface EventFilters {
+	search?: string;
+	format?: 'online' | 'offline';
+	page?: number;
+	limit?: number;
+}
+
+export interface PaginatedResponse<T> {
+	items: T[];
+	total: number;
+	page: number;
+	limit: number;
+	totalPages: number;
+}
+
+export const eventsApi = {
+	getAll: async (filters?: EventFilters): Promise<PaginatedResponse<Event>> => {
+		const params = new URLSearchParams();
+
+		if (filters?.search) params.append('search', filters.search);
+		if (filters?.format) params.append('format', filters.format);
+		if (filters?.page) params.append('page', filters.page.toString());
+		if (filters?.limit) params.append('limit', filters.limit.toString());
+
+		const queryString = params.toString();
+		const url = `/events${queryString ? `?${queryString}` : ''}`;
+
+		const { data } = await api.get<PaginatedResponse<Event>>(url);
+		return data;
+	},
+
+	getById: async (id: string): Promise<Event> => {
+		const { data } = await api.get<Event>(`/events/${id}`);
+		return data;
+	},
 };
