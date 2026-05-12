@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { UserRole } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { LogOut, ShieldCheck, Calendar, Menu, X } from 'lucide-react';
+import { LogOut, ShieldCheck, Menu, X } from 'lucide-react';
 
 const RoleBadge = ({ role }: { role: UserRole }) => {
 	const styles: Record<UserRole, string> = {
@@ -37,9 +37,9 @@ export const Header = () => {
 	return (
 		<header className="fixed top-3 left-3 right-3 md:top-4 md:left-4 md:right-4 z-50 mx-auto max-w-5xl">
 			<div className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-2.5 md:px-5 md:py-3">
-				<Link to="/" className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-					<Calendar className="text-gray-700" size={20} />
-					<span className="hidden sm:inline">Eventify</span>
+				{/* ✅ font-bold вместо font-semibold для более жирного начертания */}
+				<Link to="/" className="text-lg font-bold text-gray-900">
+					Eventify
 				</Link>
 
 				<nav className="hidden md:flex items-center gap-1">

@@ -1,5 +1,4 @@
 import type { Event } from '../types';
-import { EventCarousel } from '../components/events/EventCarousel';
 import { EventCatalog } from '../components/events/EventCatalog';
 import { Calendar, Users, Award, Zap } from 'lucide-react';
 
@@ -105,8 +104,7 @@ export const HomePage = () => {
 				</div>
 			</div>
 
-			<EventCarousel events={mockEvents} />
-
+			{/* Каталог событий */}
 			<div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
 				<h2 className="text-2xl font-bold text-gray-900 mb-6">Каталог событий</h2>
 				<EventCatalog initialEvents={mockEvents} />
