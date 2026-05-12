@@ -9,11 +9,8 @@ export const LoginPage = () => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Auth
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // Profile
   const [lastName, setLastName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
@@ -25,7 +22,6 @@ export const LoginPage = () => {
   const location = useLocation();
   const from = (location.state as { from?: string })?.from || '/';
 
-  // ✅ Исправлено: min = 150 лет назад, max = 5 лет назад
   const dateLimits = useMemo(() => {
     const now = new Date();
     const max = new Date(now.getFullYear() - 5, now.getMonth(), now.getDate());
@@ -47,7 +43,8 @@ export const LoginPage = () => {
         await login({ email, password });
       }
       navigate(from, { replace: true });
-    } catch (err: unknown) {      const axiosError = err as { response?: { data?: { message?: string } } };
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } };
       setError(axiosError.response?.data?.message || 'Ошибка авторизации. Проверьте данные.');
     } finally {
       setIsSubmitting(false);
@@ -93,12 +90,13 @@ export const LoginPage = () => {
             <div className="space-y-4 pt-4 border-t border-gray-100 lg:border-t-0 lg:border-l lg:pl-6">
               <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide flex items-center gap-2"><User size={14} /> Личные данные</h3>
               <div className="space-y-3">
-                <div><label className="block text-sm font-medium mb-1">Фамилия</label><input type="text" required value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иванов" /></div>
-                
-                {/* ✅ Исправлено: на мобильных в 1 колонку (удобно для длинных имён), на планшетах+ в 2 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">                  <div>
+                {/* ✅ required теперь зависит от режима */}
+                <div><label className="block text-sm font-medium mb-1">Фамилия</label><input type="text" required={mode === 'register'} value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иванов" /></div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
                     <label className="block text-sm font-medium mb-1">Имя</label>
-                    <input type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иван" />
+                    <input type="text" required={mode === 'register'} value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" placeholder="Иван" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Отчество</label>
@@ -110,8 +108,7 @@ export const LoginPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium mb-1">Дата рождения</label>
-                  {/* ✅ min/max теперь привязаны к корректным датам */}
-                  <input type="date" required min={dateLimits.min} max={dateLimits.max} value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
+                  <input type="date" required={mode === 'register'} min={dateLimits.min} max={dateLimits.max} value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Телефон</label>
