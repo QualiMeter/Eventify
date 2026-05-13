@@ -8,7 +8,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -29,8 +29,6 @@ export default defineConfig([
       "react-hooks/immutability": "off",
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/purity": "off",
-      "prefer-const": "off",
-      "react-hooks/static-components": "off",
     }
   }
 ])
