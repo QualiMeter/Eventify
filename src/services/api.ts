@@ -11,7 +11,7 @@ import type {
     LoginResponse
 } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://eventifybackend-events.up.railway.app';
+const API_BASE_URL = /*import.meta.env.VITE_API_URL ||*/ 'https://eventifybackend-events.up.railway.app';
 
 class ApiError extends Error {
     public status: number;
