@@ -94,5 +94,4 @@ export interface PaginatedResponse<T> {
 
 export interface LoginResponse {
     token: string;
-    user: User;
 }

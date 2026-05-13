@@ -21,7 +21,9 @@ export default function LoginPage() {
             await login({ email, password });
             navigate('/');
         } catch (err: any) {
-            setError(err.data?.detail || 'Ошибка входа. Проверьте credentials.');
+            if (err.data?.detail == null)
+                setError('Ошибка входа. Проверьте credentials.');
+            else setError(`error: ${err.data?.detail}`);
         } finally {
             setIsLoading(false);
         }

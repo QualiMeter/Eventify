@@ -5,7 +5,7 @@ import type { User, LoginRequest, RegistrationRequest, UpdateProfileRequest } fr
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
-    login: (data: LoginRequest) => Promise<void>;
+    login: (data: LoginRequest) => Promise<string>;
     register: (data: RegistrationRequest) => Promise<void>;
     logout: () => void;
     updateProfile: (data: UpdateProfileRequest) => Promise<void>;
@@ -36,11 +36,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = async (data: LoginRequest) => {
         const response = await authApi.login({
-            ...data,
-            deviceInfo: getDeviceInfo(),
+            email: data.email,
+            password: data.password
         });
         localStorage.setItem('token', response.token);
-        setUser(response.user);
+        const me = await authApi.getMe();
+        setUser(me);
+        return response.token;
     };
 
     const register = async (data: RegistrationRequest) => {

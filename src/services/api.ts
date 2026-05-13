@@ -37,9 +37,7 @@ async function fetchApi<T>(
         Object.assign(headers, options.headers);
     }
 
-    if (!(options.body instanceof FormData)) {
-        headers['Content-Type'] = 'application/json';
-    }
+    headers['Content-Type'] = 'application/json';
 
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -50,7 +48,6 @@ async function fetchApi<T>(
             ...options,
             headers,
         });
-
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
             throw new ApiError(response.status, errorData);
@@ -94,7 +91,7 @@ export const authApi = {
 
 export const eventsApi = {
     getAll: (status: string = 'published', page: number = 1, size: number = 20) =>
-        fetchApi<PaginatedResponse<Event>>(
+        fetchApi<Array<Event>>(
             `/api/Events?status=${status}&page=${page}&size=${size}`
         ),
 
