@@ -6,7 +6,6 @@ import type {
     User,
     Event,
     EventImage,
-    PaginatedResponse,
     ProblemDetails,
     LoginResponse
 } from '../types';
