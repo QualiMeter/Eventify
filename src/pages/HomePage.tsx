@@ -142,7 +142,7 @@ export default function HomePage() {
 	return (
 		<div className="min-h-screen bg-gray-50 pb-20">
 			<header className="bg-gradient-to-br from-blue-600 to-blue-700 text-white sticky top-0 z-10 shadow-lg">
-				<div className="px-4 py-4 space-y-4">
+				<div className="px-4 pt-8 py-4 space-y-4">
 					{!showSearch ? (
 						<div className="flex items-center justify-between">
 							<div>

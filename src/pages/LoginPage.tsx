@@ -37,7 +37,7 @@ export default function LoginPage() {
             <div className="bg-white border border-gray-200 rounded-xl w-full max-w-md p-5 md:p-8 space-y-6">
                 <div className="text-center">
                     <h2 className="text-2xl font-bold">Вход в Eventify</h2>
-                    <p className="text-gray-500 text-sm mt-1">Введите email и пароль</p>
+                    <p className="text-black text-sm mt-1">Введите email и пароль</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -51,13 +51,13 @@ export default function LoginPage() {
                         <div>
                             <label className="block text-sm font-medium mb-1">Email</label>
                             <div className="relative">
-                                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-black" />
                                 <input
                                     type="email"
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 text-black border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
                                     placeholder="you@example.com"
                                 />
                             </div>
@@ -66,19 +66,19 @@ export default function LoginPage() {
                         <div>
                             <label className="block text-sm font-medium mb-1">Пароль</label>
                             <div className="relative">
-                                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-black" />
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-9 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
+                                    className="w-full pl-9 pr-10 py-2.5 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"
                                     placeholder="••••••••"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition"
                                     aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                                 >
                                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}

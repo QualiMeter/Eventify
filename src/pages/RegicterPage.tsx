@@ -74,13 +74,13 @@ export default function RegisterPage() {
                             <div>
                                 <label className="block text-xs font-medium mb-1">Email</label>
                                 <div className="relative">
-                                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-black" />
                                     <input
                                         type="email"
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                        className="w-full pl-9 pr-4 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                         placeholder="you@example.com"
                                     />
                                 </div>
@@ -88,13 +88,13 @@ export default function RegisterPage() {
                             <div>
                                 <label className="block text-xs font-medium mb-1">Пароль</label>
                                 <div className="relative">
-                                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-black" />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full pl-9 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                        className="w-full pl-9 pr-10 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                         placeholder="••••••••"
                                         minLength={6}
                                     />
@@ -121,7 +121,7 @@ export default function RegisterPage() {
                                     required
                                     value={surname}
                                     onChange={(e) => setSurname(e.target.value)}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                    className="w-full px-3 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                     placeholder="Иванов"
                                 />
                             </div>
@@ -134,7 +134,7 @@ export default function RegisterPage() {
                                         required
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
-                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                        className="w-full px-3 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                         placeholder="Иван"
                                     />
                                 </div>
@@ -144,7 +144,7 @@ export default function RegisterPage() {
                                         type="text"
                                         value={middleName}
                                         onChange={(e) => setMiddleName(e.target.value)}
-                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                        className="w-full px-3 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                         placeholder="(необяз.)"
                                     />
                                 </div>
@@ -162,7 +162,7 @@ export default function RegisterPage() {
                                             max={dateLimits.max}
                                             value={birthDate}
                                             onChange={(e) => setBirthDate(e.target.value)}
-                                            className="w-full pl-8 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                            className="w-full pl-8 pr-3 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                         />
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@ export default function RegisterPage() {
                                             type="tel"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value)}
-                                            className="w-full pl-8 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
+                                            className="w-full pl-8 pr-3 py-2 bg-gray-50 text-black border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition text-sm"
                                             placeholder="+7..."
                                         />
                                     </div>

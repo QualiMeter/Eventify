@@ -69,7 +69,8 @@ export default function BottomNav() {
                     <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center -mt-6 shadow-lg">
                         <ListChecks size={24} className="text-white" />
                     </div>
-                    <span className="text-xs">Мои записи</span>
+                    <span className={`text-xs font-semibold ${isActive('/my-registrations') ? 'text-blue-600' : 'text-gray-700'}`}>Мои записи</span>
+
                 </button>
 
                 <button
