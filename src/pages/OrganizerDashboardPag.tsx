@@ -92,7 +92,7 @@ export default function OrganizerDashboardPage() {
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
             <header className="bg-gradient-to-br from-indigo-600 to-purple-700 text-white shadow-lg">
-                <div className="px-4 py-4">
+                <div className="px-4 pt-8 py-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-2xl font-bold">Кабинет организатора</h1>

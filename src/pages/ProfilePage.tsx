@@ -78,7 +78,7 @@ export default function ProfilePage() {
             <header className={`bg-gradient-to-r shadow-lg sticky top-0 z-10 ${
                 isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
             } text-white`}>
-                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
+                <div className="max-w-2xl mx-auto px-4 pt-8 py-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Профиль</h1>
                     {!isEditing ? (
                         <div className="flex gap-2">
