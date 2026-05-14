@@ -8,7 +8,7 @@ export interface User {
     timezone?: string | null;
     tgUsername?: string | null;
     notifications?: boolean | null;
-    role: 'User' | 'Organizer' | 'Admin';
+    role: 'user' | 'organizer' | 'admin';
 }
 
 export interface Event {
@@ -94,4 +94,13 @@ export interface PaginatedResponse<T> {
 
 export interface LoginResponse {
     token: string;
+}
+
+export interface Registration {
+    id: string;
+    eventId: string;
+    event: Event;
+    status: string;
+    registeredAt: string;
+    userId: string;
 }

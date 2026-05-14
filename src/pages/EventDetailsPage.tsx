@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { eventsApi } from '../services/api';
+import { eventsApi, registrationsApi } from '../services/api';
 import type { Event } from '../types';
-import { CalendarDays, MapPin, Users, ArrowLeft, CheckCircle } from 'lucide-react';
+import { CalendarDays, MapPin, Users, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function EventDetailsPage() {
     const { id } = useParams<{ id: string }>();
@@ -11,10 +11,12 @@ export default function EventDetailsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [registering, setRegistering] = useState(false);
+    const [alreadyRegistered, setAlreadyRegistered] = useState(false);
 
     useEffect(() => {
         if (id) {
             loadEvent();
+            checkRegistration();
         }
     }, [id]);
 
@@ -23,20 +25,46 @@ export default function EventDetailsPage() {
             setLoading(true);
             const data = await eventsApi.getById(id!);
             setEvent(data);
-        } catch (err) {
-            setError('Не удалось загрузить информацию о мероприятии');
+        } catch (err: any) {
+            console.error('Failed to load event:', err);
+            setError(err.data?.detail || 'Не удалось загрузить информацию о мероприятии');
         } finally {
             setLoading(false);
         }
     };
 
+    const checkRegistration = async () => {
+        try {
+            const registrations = await registrationsApi.getMyRegistrations();
+            const isRegistered = registrations.some(reg => reg.eventId === id);
+            setAlreadyRegistered(isRegistered);
+        } catch (err) {
+            console.error('Failed to check registration:', err);
+        }
+    };
+
     const handleRegister = async () => {
-        setRegistering(true);
-        // TODO: Implement registration API call
-        setTimeout(() => {
+        if (!id) return;
+
+        try {
+            setRegistering(true);
+            await registrationsApi.registerForEvent(id);
+
+            alert('Вы успешно записались на мероприятие!');
+            setAlreadyRegistered(true);
+
+            if (event) {
+                setEvent({
+                    ...event,
+                    registeredCount: event.registeredCount + 1
+                });
+            }
+        } catch (err: any) {
+            console.error('Registration failed:', err);
+            alert(err.data?.detail || 'Ошибка при записи на мероприятие');
+        } finally {
             setRegistering(false);
-            alert('Регистрация на мероприятие успешно выполнена!');
-        }, 1000);
+        }
     };
 
     const formatDate = (dateString: string) => {
@@ -54,7 +82,7 @@ export default function EventDetailsPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
-                <div className="text-gray-600">Загрузка...</div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
         );
     }
@@ -63,6 +91,7 @@ export default function EventDetailsPage() {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
                 <div className="text-center">
+                    <AlertCircle size={48} className="mx-auto text-red-500 mb-4" />
                     <p className="text-red-600 mb-4">{error || 'Мероприятие не найдено'}</p>
                     <button
                         onClick={() => navigate('/')}
@@ -74,6 +103,10 @@ export default function EventDetailsPage() {
             </div>
         );
     }
+
+
+
+    const isFull = event.maxParticipants && event.registeredCount >= event.maxParticipants;
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
@@ -166,22 +199,41 @@ export default function EventDetailsPage() {
                                 <p className="text-sm text-gray-600">{event.organizerName}</p>
                             </div>
 
-                            <button
-                                onClick={handleRegister}
-                                disabled={registering || !!(event.maxParticipants && event.registeredCount >= event.maxParticipants)}
-                                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {registering ? (
-                                    <>Регистрация...</>
-                                ) : event.maxParticipants && event.registeredCount >= event.maxParticipants ? (
-                                    <>Мест нет</>
-                                ) : (
-                                    <>
-                                        <CheckCircle size={20} />
-                                        Записаться на мероприятие
-                                    </>
-                                )}
-                            </button>
+                            {alreadyRegistered ? (
+                                <div className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg font-medium">
+                                    <CheckCircle size={20} />
+                                    Вы записаны
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={handleRegister}
+                                    disabled={registering || !!isFull}
+                                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {registering ? (
+                                        <>
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                            Запись...
+                                        </>
+                                    ) : isFull ? (
+                                        <>
+                                            <AlertCircle size={20} />
+                                            Мест нет
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CheckCircle size={20} />
+                                            Записаться на мероприятие
+                                        </>
+                                    )}
+                                </button>
+                            )}
+
+                            {alreadyRegistered && (
+                                <p className="text-sm text-center text-green-600 mt-3">
+                                    Вы уже записаны на это мероприятие. Отменить запись можно в разделе "Мои записи".
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -189,3 +241,4 @@ export default function EventDetailsPage() {
         </div>
     );
 }
+

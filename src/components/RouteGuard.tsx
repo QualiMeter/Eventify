@@ -6,12 +6,14 @@ interface RouteGuardProps {
     children: ReactNode;
     requireAuth?: boolean;
     allowedRoles?: string[];
+    redirectTo?: string;
 }
 
 export const RouteGuard = ({
                                children,
                                requireAuth = false,
-                               allowedRoles
+                               allowedRoles,
+                               redirectTo
                            }: RouteGuardProps) => {
     const { user, isLoading } = useAuth();
 
@@ -24,7 +26,7 @@ export const RouteGuard = ({
     }
 
     if (allowedRoles && user && !allowedRoles.includes(user.role)) {
-        return <Navigate to="/" replace />;
+        return <Navigate to={redirectTo || "/"} replace />;
     }
 
     return <>{children}</>;

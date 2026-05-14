@@ -2,10 +2,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RouteGuard } from './components/RouteGuard';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import RegisterPage from './pages/RegicterPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import EventDetailsPage from './pages/EventDetailsPage';
+import MyRegistrationsPage from './pages/MyRegistrationsPage';
+import OrganizerDashboardPage from './pages/OrganizerDashboardPag';
+import CreateEventPage from './pages/CreateEventPage';
 import './App.css';
 
 export default function App() {
@@ -24,10 +27,42 @@ export default function App() {
                         }
                     />
                     <Route
+                        path="/organizer/dashboard"
+                        element={
+                            <RouteGuard
+                                requireAuth
+                                allowedRoles={['organizer']}
+                            >
+                                <OrganizerDashboardPage />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route
+                        path="/organizer/create-event"
+                        element={
+                            <RouteGuard
+                                requireAuth
+                                allowedRoles={['organizer']}
+                            >
+                                <CreateEventPage />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route
                         path="/events/:id"
                         element={
                             <RouteGuard requireAuth>
                                 <EventDetailsPage />
+                            </RouteGuard>
+                        }
+                    />
+                    <Route
+                        path="/my-registrations"
+                        element={
+                            <RouteGuard
+                                requireAuth
+                            >
+                                <MyRegistrationsPage />
                             </RouteGuard>
                         }
                     />

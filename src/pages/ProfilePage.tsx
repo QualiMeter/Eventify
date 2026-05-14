@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Mail, Calendar, Clock, Bell, Edit2, Save, X, LogOut } from 'lucide-react';
+import { User, Mail, Calendar,  Bell, Edit2, Save, X, LogOut } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
 export default function ProfilePage() {
@@ -57,6 +57,11 @@ export default function ProfilePage() {
         setIsEditing(false);
     };
 
+    const handleLogout = () => {
+        logout();
+        window.location.href = '/login';
+    };
+
     const formatDate = (dateString?: string | null) => {
         if (!dateString) return 'Не указана';
         return new Date(dateString).toLocaleDateString('ru-RU');
@@ -66,31 +71,43 @@ export default function ProfilePage() {
         return <div className="flex items-center justify-center min-h-screen">Загрузка...</div>;
     }
 
+    const isOrganizer = user.role === 'organizer';
+
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
-            <header className="bg-white shadow-sm sticky top-0 z-10">
+            <header className={`bg-gradient-to-r shadow-lg sticky top-0 z-10 ${
+                isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
+            } text-white`}>
                 <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <h1 className="text-2xl font-bold text-gray-900">Профиль</h1>
+                    <h1 className="text-2xl font-bold">Профиль</h1>
                     {!isEditing ? (
-                        <button
-                            onClick={() => setIsEditing(true)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                        >
-                            <Edit2 size={20} />
-                        </button>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={handleLogout}
+                                className="p-2 rounded-full hover:bg-white/20 transition"
+                            >
+                                <LogOut size={20} />
+                            </button>
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className="p-2 rounded-full hover:bg-white/20 transition"
+                            >
+                                <Edit2 size={20} />
+                            </button>
+                        </div>
                     ) : (
                         <div className="flex gap-2">
                             <button
                                 onClick={handleCancel}
                                 disabled={isLoading}
-                                className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
+                                className="p-2 rounded-full hover:bg-white/20 transition"
                             >
                                 <X size={20} />
                             </button>
                             <button
                                 onClick={handleSave}
                                 disabled={isLoading}
-                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                className="p-2 rounded-full hover:bg-white/20 transition"
                             >
                                 <Save size={20} />
                             </button>
@@ -107,7 +124,9 @@ export default function ProfilePage() {
                 )}
 
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
+                    <div className={`bg-gradient-to-r p-6 text-white ${
+                        isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
+                    }`}>
                         <div className="flex items-center gap-4">
                             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
                                 <User size={32} />
@@ -116,7 +135,10 @@ export default function ProfilePage() {
                                 <h2 className="text-xl font-semibold">
                                     {user.surname} {user.name}
                                 </h2>
-                                <p className="text-blue-100 text-sm">{user.role}</p>
+                                <p className="text-white/80 text-sm">
+                                    {user.role === 'organizer' ? 'Организатор' :
+                                        user.role === 'admin' ? 'Администратор' : 'Пользователь'}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -133,7 +155,7 @@ export default function ProfilePage() {
                                         name="surname"
                                         value={formData.surname}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
@@ -153,7 +175,7 @@ export default function ProfilePage() {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
@@ -173,7 +195,7 @@ export default function ProfilePage() {
                                         name="patronym"
                                         value={formData.patronym}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
@@ -193,7 +215,7 @@ export default function ProfilePage() {
                                         name="birthDate"
                                         value={formData.birthDate}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
@@ -213,7 +235,7 @@ export default function ProfilePage() {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
@@ -225,7 +247,7 @@ export default function ProfilePage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Telegram username
+                                    Telegram
                                 </label>
                                 {isEditing ? (
                                     <input
@@ -233,53 +255,31 @@ export default function ProfilePage() {
                                         name="tgUsername"
                                         value={formData.tgUsername}
                                         onChange={handleChange}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                         placeholder="@username"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2 text-gray-900">
-                                        <User size={18} className="text-gray-400" />
+                                        <Bell size={18} className="text-gray-400" />
                                         <span>{user.tgUsername || 'Не указан'}</span>
                                     </div>
                                 )}
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Часовой пояс
-                                </label>
-                                <div className="flex items-center gap-2 text-gray-900">
-                                    <Clock size={18} className="text-gray-400" />
-                                    <span>{user.timezone || 'Не указан'}</span>
-                                </div>
-                            </div>
-
                             {isEditing && (
-                                <div className="flex items-center gap-2 pt-2">
-                                    <input
-                                        type="checkbox"
-                                        name="notifications"
-                                        id="notifications"
-                                        checked={formData.notifications}
-                                        onChange={handleChange}
-                                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                    />
-                                    <label htmlFor="notifications" className="flex items-center gap-2 text-gray-700">
-                                        <Bell size={18} className="text-gray-400" />
-                                        Включить уведомления
+                                <div>
+                                    <label className="flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            name="notifications"
+                                            checked={formData.notifications}
+                                            onChange={handleChange}
+                                            className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                        />
+                                        <span className="text-sm text-gray-700">Получать уведомления</span>
                                     </label>
                                 </div>
                             )}
-                        </div>
-
-                        <div className="pt-4 border-t border-gray-200">
-                            <button
-                                onClick={logout}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-3 text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition"
-                            >
-                                <LogOut size={18} />
-                                Выйти из аккаунта
-                            </button>
                         </div>
                     </div>
                 </div>

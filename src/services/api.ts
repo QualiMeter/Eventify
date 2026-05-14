@@ -7,7 +7,7 @@ import type {
     Event,
     EventImage,
     ProblemDetails,
-    LoginResponse
+    LoginResponse,
 } from '../types';
 
 const API_BASE_URL = /*import.meta.env.VITE_API_URL ||*/ 'https://eventifybackend-events.up.railway.app';
@@ -101,6 +101,22 @@ export const eventsApi = {
         fetchApi<Event>('/api/Events', {
             method: 'POST',
             body: JSON.stringify(data),
+        }),
+};
+
+export const registrationsApi = {
+    registerForEvent: (eventId: string, additionalData?: any) =>
+        fetchApi<{ id: string; status: string }>(`/api/Events/${eventId}/register`, {
+            method: 'POST',
+            body: JSON.stringify(additionalData || {}),
+        }),
+
+    getMyRegistrations: () =>
+        fetchApi<Array<{ id: string; eventId: string; event: Event; status: string; registeredAt: string }>>('/api/Registrations/my'),
+
+    cancelRegistration: (registrationId: string) =>
+        fetchApi(`/api/Registrations/${registrationId}`, {
+            method: 'DELETE',
         }),
 };
 
