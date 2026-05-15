@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowLeft, RefreshCw } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
-import { registrationsApi } from '../services/api';
+import { eventsApi, registrationsApi } from '../services/api';
 import type { Event } from '../types';
 
 interface Registration {
@@ -28,6 +28,10 @@ export default function MyRegistrationsPage() {
             setIsLoading(true);
             setError('');
             const data = await registrationsApi.getMyRegistrations();
+            for (const reg of data) {
+                const e = await eventsApi.getById(reg.eventId);
+                reg.event = e;
+            }
             setRegistrations(data);
         } catch (err: any) {
             console.error('Failed to load registrations:', err);
@@ -83,7 +87,7 @@ export default function MyRegistrationsPage() {
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
             <header className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
+                <div className="max-w-2xl mx-auto px-4 pt-8 py-4 space-y-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => navigate(-1)}
@@ -135,21 +139,21 @@ export default function MyRegistrationsPage() {
                                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer active:scale-95 transition-transform"
                             >
                                 <div className="flex">
-                                    {reg.event.image && (
-                                        <img
-                                            src={reg.event.image}
-                                            alt={reg.event.title}
-                                            className="w-24 h-24 object-cover flex-shrink-0"
-                                        />
-                                    )}
+                                    {/* {reg.event.image && (
+                                            <img
+                                                src={reg.event.image}
+                                                alt={reg.event.title}
+                                                className="w-24 h-24 object-cover flex-shrink-0"
+                                            />
+                                        )} */}
                                     <div className="flex-1 p-3 min-w-0">
                                         <div className="flex items-start justify-between gap-2 mb-2">
                                             <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 flex-1">
                                                 {reg.event.title}
                                             </h3>
                                             <span className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs font-medium ${getStatusColor(reg.status)}`}>
-												{getStatusText(reg.status)}
-											</span>
+                                                {getStatusText(reg.status)}
+                                            </span>
                                         </div>
 
                                         <div className="space-y-1.5 text-xs text-gray-600">
@@ -168,8 +172,8 @@ export default function MyRegistrationsPage() {
                                             <div className="flex items-center gap-1.5 pt-1">
                                                 <Clock size={14} />
                                                 <span className="text-gray-500">
-													Запись: {new Date(reg.registeredAt).toLocaleDateString('ru-RU')}
-												</span>
+                                                    Запись: {new Date(reg.registeredAt).toLocaleDateString('ru-RU')}
+                                                </span>
                                             </div>
                                         </div>
 
