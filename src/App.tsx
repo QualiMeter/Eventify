@@ -9,7 +9,16 @@ import EventDetailsPage from './pages/EventDetailsPage';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import OrganizerDashboardPage from './pages/OrganizerDashboardPag';
 import CreateEventPage from './pages/CreateEventPage';
+import { isAndroid } from 'react-device-detect'
+import { Animation, StatusBar } from '@capacitor/status-bar'
 import './App.css';
+
+if (isAndroid) {
+    await StatusBar.hide({ animation: Animation.Fade })
+    await StatusBar.addListener("statusBarVisibilityChanged", async (_) => {
+        await StatusBar.hide();
+    });
+}
 
 export default function App() {
     return (

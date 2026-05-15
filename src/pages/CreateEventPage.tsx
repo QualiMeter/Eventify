@@ -17,6 +17,7 @@ export default function CreateEventPage() {
         endDate: '',
         endTime: '',
         selectionMethod: 'free',
+        status: 'draft'
     });
     const [_, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string>('');
@@ -66,7 +67,7 @@ export default function CreateEventPage() {
                 format: formData.format as 'online' | 'offline',
                 maxParticipants: formData.maxParticipants.trim().length > 0 ? parseInt(formData.maxParticipants) : null,
                 selectionMethod: formData.selectionMethod as 'free' | 'moderation' | 'competition',
-
+                status: 'published'
             };
 
             console.log('Creating event:', JSON.stringify(eventData, null, 4));
