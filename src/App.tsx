@@ -10,15 +10,11 @@ import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import OrganizerDashboardPage from './pages/OrganizerDashboardPag';
 import CreateEventPage from './pages/CreateEventPage';
 import { isMobile } from 'react-device-detect'
-import { Animation, StatusBar } from '@capacitor/status-bar'
+import { StatusBar } from '@capacitor/status-bar'
 import './App.css';
 
 if (isMobile) {
-    //await StatusBar.setOverlaysWebView({ overlay: false });
-    await StatusBar.hide({ animation: Animation.Slide })
-    await StatusBar.addListener("statusBarVisibilityChanged", async (_) => {
-        await StatusBar.hide();
-    });
+    await StatusBar.setOverlaysWebView({ overlay: false });
 }
 
 export default function App() {
