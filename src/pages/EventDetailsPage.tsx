@@ -135,12 +135,10 @@ export default function EventDetailsPage() {
                     <div className="p-6">
                         <div className="flex items-start justify-between mb-4">
                             <h2 className="text-2xl font-bold text-gray-900">{event.title}</h2>
-                            <span className={`px-3 py-1 rounded-lg text-xs font-medium ${
-                                event.format === 'online'
-                                    ? 'bg-green-100 text-green-800'
-                                    : 'bg-blue-100 text-blue-800'
-                            }`}>
-                                {event.format === 'online' ? 'Онлайн' : 'Офлайн'}
+                            <span className={`px-3 py-1 rounded-lg text-xs font-medium ${event.format === 'online'
+                                ? 'bg-green-100 text-green-800'
+                                : (event.format === 'hybrid' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800')}`}>
+                                {event.format === 'online' ? 'Онлайн' : (event.format === 'hybrid' ? 'Гибрид' : 'Офлайн')}
                             </span>
                         </div>
 

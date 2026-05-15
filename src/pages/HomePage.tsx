@@ -238,18 +238,22 @@ export default function HomePage() {
 						<div className="overflow-hidden" ref={emblaRef}>
 							<div className="flex -ml-4">
 								{filteredEvents.slice(0, 3).map((event, i) => (
-									<div key={i} className="flex-[0_0_85%] min-w-0 pl-4">
+									<div key={i} className="flex min-w-0 pl-4">
 										<div
 											onClick={() => navigate(`/events/${event.id}`)}
-											className="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg cursor-pointer active:scale-95 transition-transform"
+											className="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg cursor-pointer active:scale-95 transition-transform max-w-[350px]"
 										>
-											<div className="absolute top-3 right-3 bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1">
-												<span className="text-xs font-medium">⭐ Рекомендуем</span>
-											</div>
-											<h4 className="font-bold text-lg mb-2 pr-20">{event.title}</h4>
-											<div className="flex items-center gap-2 text-blue-50 text-sm">
-												<CalendarDays size={16} />
-												<span>{formatDate(event.startAt)}</span>
+											<div className="flex justify-between items-start gap-2">
+												<div className="min-w-0 flex-1">
+													<h4 className="font-bold text-lg truncate mb-2">{event.title}</h4>
+													<div className="flex items-center gap-2 text-blue-50 text-sm">
+														<CalendarDays size={16} className="shrink-0" />
+														<span className="truncate">{formatDate(event.startAt)}</span>
+													</div>
+												</div>
+												<div className="shrink-0 bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1">
+													<span className="text-xs font-medium whitespace-nowrap">⭐ Рекомендуем</span>
+												</div>
 											</div>
 										</div>
 									</div>

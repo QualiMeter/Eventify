@@ -18,7 +18,7 @@ export interface Event {
     startAt: string;
     endAt: string;
     location?: string | null;
-    format: 'online' | 'offline';
+    format: 'online' | 'offline' | 'hybrid';
     maxParticipants?: number | null;
     selectionMethod?: 'free' | 'moderation' | 'competition';
     organizerId: string;
@@ -72,7 +72,7 @@ export interface CreateEventDto {
     startAt: string;
     endAt: string;
     location?: string | null;
-    format: 'online' | 'offline';
+    format: 'online' | 'offline' | 'hybrid';
     maxParticipants?: number | null;
     selectionMethod?: 'free' | 'moderation' | 'competition';
 }

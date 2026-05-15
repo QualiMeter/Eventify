@@ -54,7 +54,6 @@ export default function CreateEventPage() {
             const startTimeDate = new Date(formData.startTime);
             const endDateDate = new Date(formData.endDate);
             const endTimeDate = new Date(formData.endTime);
-            //const startDateTime = new Date(startDateDate.getFullYear(), startDateDate.getMonth(), startDateDate.getDate(), startTimeDate.getHours(), startTimeDate.getMinutes(), 0);
             const startDateTime = new Date(startDateDate.getFullYear(), startDateDate.getMonth(), startDateDate.getDate(), startTimeDate.getHours(), startTimeDate.getMinutes(), 0);
             const endDateTime = new Date(endDateDate.getFullYear(), endDateDate.getMonth(), endDateDate.getDate(), endTimeDate.getHours(), endTimeDate.getMinutes(), 0);
 
@@ -64,7 +63,7 @@ export default function CreateEventPage() {
                 startAt: startDateTime.toISOString(),
                 endAt: endDateTime.toISOString(),
                 location: formData.location || null,
-                format: formData.format as 'online' | 'offline',
+                format: formData.format as 'online' | 'offline' | 'hybrid',
                 maxParticipants: formData.maxParticipants.trim().length > 0 ? parseInt(formData.maxParticipants) : null,
                 selectionMethod: formData.selectionMethod as 'free' | 'moderation' | 'competition',
                 status: 'published'

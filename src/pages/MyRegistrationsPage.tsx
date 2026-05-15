@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, MapPin, Clock, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Calendar, MapPin, ArrowLeft, RefreshCw } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import { eventsApi, registrationsApi } from '../services/api';
 import type { Event } from '../types';
@@ -10,7 +10,9 @@ interface Registration {
     eventId: string;
     event: Event;
     status: string;
-    registeredAt: string;
+    appliedAt?: string;
+    reviewedAt?: string;
+    attendedAt?: string;
 }
 
 export default function MyRegistrationsPage() {
@@ -75,12 +77,30 @@ export default function MyRegistrationsPage() {
         }
     };
 
+    const getFormatText = (format: string) => {
+        switch (format) {
+            case 'online': return 'Онлайн';
+            case 'offline': return 'Офлайн';
+            case 'hybrid': return 'Гибрид';
+            default: return format;
+        }
+    }
+
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'confirmed': return 'bg-green-50 text-green-700';
-            case 'pending': return 'bg-yellow-50 text-yellow-700';
-            case 'cancelled': return 'bg-red-50 text-red-700';
-            default: return 'bg-gray-50 text-gray-700';
+            case 'approved': return 'bg-green-100 text-green-800';
+            case 'pending': return 'bg-yellow-100 text-yellow-800';
+            case 'rejected': return 'bg-red-100 text-red-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
+    const getFormatColor = (format: string) => {
+        switch (format) {
+            case 'online': return 'bg-green-100 text-green-800';
+            case 'offline': return 'bg-blue-100 text-blue-800';
+            case 'hybrid': return 'bg-yellow-100 text-yellow-800';
+            default: return 'bg-gray-100 text-gray-800';
         }
     };
 
@@ -154,6 +174,9 @@ export default function MyRegistrationsPage() {
                                             <span className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs font-medium ${getStatusColor(reg.status)}`}>
                                                 {getStatusText(reg.status)}
                                             </span>
+                                            <span className={`flex-shrink-0 px-2 py-1 rounded-lg text-xs font-medium ${getFormatColor(reg.event.format)}`}>
+                                                {getFormatText(reg.event.format)}
+                                            </span>
                                         </div>
 
                                         <div className="space-y-1.5 text-xs text-gray-600">
@@ -168,13 +191,6 @@ export default function MyRegistrationsPage() {
                                                     <span className="truncate">{reg.event.location}</span>
                                                 </div>
                                             )}
-
-                                            <div className="flex items-center gap-1.5 pt-1">
-                                                <Clock size={14} />
-                                                <span className="text-gray-500">
-                                                    Запись: {new Date(reg.registeredAt).toLocaleDateString('ru-RU')}
-                                                </span>
-                                            </div>
                                         </div>
 
                                         <div className="mt-2">
