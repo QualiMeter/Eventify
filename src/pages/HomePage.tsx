@@ -218,11 +218,10 @@ export default function HomePage() {
 							<button
 								key={category.id}
 								onClick={() => handleCategoryClick(category.id)}
-								className={`flex-shrink-0 rounded-xl px-4 py-3 shadow-sm border active:scale-95 transition-transform ${
-									selectedCategory === category.id
-										? 'bg-blue-600 border-blue-600 text-white'
-										: 'bg-white border-gray-100 text-gray-700'
-								}`}
+								className={`flex-shrink-0 rounded-xl px-4 py-3 shadow-sm border active:scale-95 transition-transform ${selectedCategory === category.id
+									? 'bg-blue-600 border-blue-600 text-white'
+									: 'bg-white border-gray-100 text-gray-700'
+									}`}
 							>
 								<span className="text-2xl block mb-1">{category.icon}</span>
 								<span className="text-xs font-medium">{category.name}</span>
@@ -349,11 +348,10 @@ export default function HomePage() {
 												)}
 
 												<div className="flex items-center gap-2 mt-2">
-													<span className={`px-2 py-0.5 rounded text-xs font-medium ${
-														event.format === 'online'
-															? 'bg-green-50 text-green-700'
-															: 'bg-blue-50 text-blue-700'
-													}`}>
+													<span className={`px-2 py-0.5 rounded text-xs font-medium ${event.format === 'online'
+														? 'bg-green-50 text-green-700'
+														: 'bg-blue-50 text-blue-700'
+														}`}>
 														{event.format === 'online' ? 'Онлайн' : 'Офлайн'}
 													</span>
 													{event.maxParticipants && (

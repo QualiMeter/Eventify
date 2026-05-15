@@ -112,7 +112,7 @@ export const registrationsApi = {
         }),
 
     getMyRegistrations: () =>
-        fetchApi<Array<{ id: string; eventId: string; event: Event; status: string; registeredAt: string }>>('/api/Registrations/my'),
+        fetchApi<Array<{ id: string; eventId: string; event: Event; status: string; registeredAt: string }>>('/api/Events/my-registrations'),
 
     cancelRegistration: (registrationId: string) =>
         fetchApi(`/api/Registrations/${registrationId}`, {

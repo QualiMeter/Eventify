@@ -37,7 +37,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (data: LoginRequest) => {
         const response = await authApi.login({
             email: data.email,
-            password: data.password
+            password: data.password,
+            deviceInfo: 'mobile'
         });
         localStorage.setItem('token', response.token);
         const me = await authApi.getMe();
