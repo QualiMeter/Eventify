@@ -18,7 +18,7 @@ export default function CreateEventPage() {
         endTime: '',
         selectionMethod: 'free',
     });
-    const [image, setImage] = useState<File | null>(null);
+    const [_, setImage] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');

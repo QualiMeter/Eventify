@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Mail, Calendar,  Bell, Edit2, Save, X, LogOut } from 'lucide-react';
+import { User, Mail, Calendar, Bell, Edit2, Save, X, LogOut } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 
 export default function ProfilePage() {
@@ -75,10 +75,9 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
-            <header className={`bg-gradient-to-r shadow-lg sticky top-0 z-10 ${
-                isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
-            } text-white`}>
-                <div className="max-w-2xl mx-auto px-4 pt-8 py-4 flex items-center justify-between">
+            <header className={`bg-gradient-to-r shadow-lg sticky top-0 z-10 ${isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
+                } text-white`}>
+                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Профиль</h1>
                     {!isEditing ? (
                         <div className="flex gap-2">
@@ -124,9 +123,8 @@ export default function ProfilePage() {
                 )}
 
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className={`bg-gradient-to-r p-6 text-white ${
-                        isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
-                    }`}>
+                    <div className={`bg-gradient-to-r p-6 text-white ${isOrganizer ? 'from-indigo-600 to-purple-700' : 'from-blue-500 to-indigo-600'
+                        }`}>
                         <div className="flex items-center gap-4">
                             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
                                 <User size={32} />

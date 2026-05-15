@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { StatusBar } from '@capacitor/status-bar';
 import { AuthProvider } from './contexts/AuthContext';
 import { RouteGuard } from './components/RouteGuard';
 import LoginPage from './pages/LoginPage';
@@ -10,6 +11,8 @@ import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import OrganizerDashboardPage from './pages/OrganizerDashboardPag';
 import CreateEventPage from './pages/CreateEventPage';
 import './App.css';
+
+await StatusBar.setOverlaysWebView({ overlay: false });
 
 export default function App() {
     return (

@@ -87,7 +87,7 @@ export default function MyRegistrationsPage() {
     return (
         <div className="min-h-screen bg-gray-50 pb-20">
             <header className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-2xl mx-auto px-4 pt-8 py-4 space-y-4 flex items-center justify-between">
+                <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => navigate(-1)}
