@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Users,  ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
+import { MapPin, Users, ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import { ApiError, eventsApi } from '../services/api';
 
 export default function CreateEventPage() {
     const navigate = useNavigate();
@@ -48,8 +49,13 @@ export default function CreateEventPage() {
         setIsLoading(true);
 
         try {
-            const startDateTime = new Date(`${formData.startDate}T${formData.startTime}`);
-            const endDateTime = new Date(`${formData.endDate}T${formData.endTime}`);
+            const startDateDate = new Date(formData.startDate);
+            const startTimeDate = new Date(formData.startTime);
+            const endDateDate = new Date(formData.endDate);
+            const endTimeDate = new Date(formData.endTime);
+            //const startDateTime = new Date(startDateDate.getFullYear(), startDateDate.getMonth(), startDateDate.getDate(), startTimeDate.getHours(), startTimeDate.getMinutes(), 0);
+            const startDateTime = new Date(startDateDate.getFullYear(), startDateDate.getMonth(), startDateDate.getDate(), startTimeDate.getHours(), startTimeDate.getMinutes(), 0);
+            const endDateTime = new Date(endDateDate.getFullYear(), endDateDate.getMonth(), endDateDate.getDate(), endTimeDate.getHours(), endTimeDate.getMinutes(), 0);
 
             const eventData = {
                 title: formData.title,
@@ -58,18 +64,25 @@ export default function CreateEventPage() {
                 endAt: endDateTime.toISOString(),
                 location: formData.location || null,
                 format: formData.format as 'online' | 'offline',
-                maxParticipants: formData.maxParticipants ? parseInt(formData.maxParticipants) : null,
+                maxParticipants: formData.maxParticipants.trim().length > 0 ? parseInt(formData.maxParticipants) : null,
                 selectionMethod: formData.selectionMethod as 'free' | 'moderation' | 'competition',
             };
 
-            console.log('Creating event:', eventData);
-            console.log('Image file:', image);
+            console.log('Creating event:', JSON.stringify(eventData, null, 4));
+
+            await eventsApi.create(eventData);
 
             alert('Мероприятие успешно создано!');
             navigate('/organizer/dashboard');
         } catch (err: any) {
-            console.error('Failed to create event:', err);
-            setError(err.data?.detail || 'Ошибка при создании мероприятия');
+            if (err instanceof ApiError) {
+                const apierr = err as ApiError;
+                console.error('Failed to create api event:', apierr);
+                setError(apierr.data?.detail || 'Ошибка при создании мероприятия api err');
+            } else {
+                console.error('Failed to create event:', err);
+                setError(err.data?.detail || 'Ошибка при создании мероприятия');
+            }
         } finally {
             setIsLoading(false);
         }

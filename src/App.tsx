@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { RouteGuard } from './components/RouteGuard';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegicterPage';
+import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import EventDetailsPage from './pages/EventDetailsPage';
