@@ -66,6 +66,7 @@ export default function CreateEventPage() {
                 format: formData.format as 'online' | 'offline',
                 maxParticipants: formData.maxParticipants.trim().length > 0 ? parseInt(formData.maxParticipants) : null,
                 selectionMethod: formData.selectionMethod as 'free' | 'moderation' | 'competition',
+
             };
 
             console.log('Creating event:', JSON.stringify(eventData, null, 4));
