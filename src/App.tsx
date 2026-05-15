@@ -9,12 +9,13 @@ import EventDetailsPage from './pages/EventDetailsPage';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import OrganizerDashboardPage from './pages/OrganizerDashboardPag';
 import CreateEventPage from './pages/CreateEventPage';
-import { isAndroid } from 'react-device-detect'
+import { isMobile } from 'react-device-detect'
 import { Animation, StatusBar } from '@capacitor/status-bar'
 import './App.css';
 
-if (isAndroid) {
-    await StatusBar.hide({ animation: Animation.Fade })
+if (isMobile) {
+    //await StatusBar.setOverlaysWebView({ overlay: false });
+    await StatusBar.hide({ animation: Animation.Slide })
     await StatusBar.addListener("statusBarVisibilityChanged", async (_) => {
         await StatusBar.hide();
     });
