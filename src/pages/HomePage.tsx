@@ -6,7 +6,6 @@ import { CalendarDays, MapPin, Users, Search, Bell, X } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
 import useEmblaCarousel from 'embla-carousel-react';
 import { eventsApi } from '../services/api';
-import { Toast } from '@capacitor/toast';
 
 const categories = [
 	{ id: 'all', name: 'Все', icon: '📅' },
