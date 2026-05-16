@@ -50,26 +50,26 @@ export default function CreateEventPage() {
         setIsLoading(true);
 
         try {
-            const startDateDate = new Date(formData.startDate);
+            const start = new Date(`${formData.startDate}T${formData.startTime}Z`);
+            const end = new Date(`${formData.endDate}T${formData.endTime}Z`);
+            /* const startDateDate = new Date(formData.startDate);
             const startTimeDate = new Date(formData.startTime);
             const endDateDate = new Date(formData.endDate);
             const endTimeDate = new Date(formData.endTime);
             const startDateTime = new Date(startDateDate.getFullYear(), startDateDate.getMonth(), startDateDate.getDate(), startTimeDate.getHours(), startTimeDate.getMinutes(), 0);
             const endDateTime = new Date(endDateDate.getFullYear(), endDateDate.getMonth(), endDateDate.getDate(), endTimeDate.getHours(), endTimeDate.getMinutes(), 0);
-
+ */
             const eventData = {
                 title: formData.title,
                 description: formData.description || null,
-                startAt: startDateTime.toISOString(),
-                endAt: endDateTime.toISOString(),
+                startAt: start.toISOString(),
+                endAt: end.toISOString(),
                 location: formData.location || null,
                 format: formData.format as 'online' | 'offline' | 'hybrid',
                 maxParticipants: formData.maxParticipants.trim().length > 0 ? parseInt(formData.maxParticipants) : null,
                 selectionMethod: formData.selectionMethod as 'free' | 'moderation' | 'competition',
                 status: 'published'
             };
-
-            console.log('Creating event:', JSON.stringify(eventData, null, 4));
 
             await eventsApi.create(eventData);
 
