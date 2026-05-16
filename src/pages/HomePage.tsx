@@ -107,7 +107,6 @@ export default function HomePage() {
 
 	const formatDate = async (dateString: string) => {
 		const date = new Date(dateString);
-		await Toast.show({ text: 'lol' })
 		return date.toLocaleDateString('ru-RU', {
 			day: 'numeric',
 			month: 'long',
