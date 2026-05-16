@@ -241,7 +241,7 @@ export default function HomePage() {
 									<div key={i} className="flex min-w-0 pl-4">
 										<div
 											onClick={() => navigate(`/events/${event.id}`)}
-											className="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg cursor-pointer active:scale-95 transition-transform max-w-[350px]"
+											className="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg cursor-pointer active:scale-95 transition-transform min-w-[350px] max-w-[500px]"
 										>
 											<div className="flex justify-between items-start gap-2">
 												<div className="min-w-0 flex-1">
