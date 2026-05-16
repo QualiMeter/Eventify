@@ -17,7 +17,7 @@ export default function NotificationsPage() {
 	const loadNotifications = async () => {
 		try {
 			setLoading(true);
-			const data = await notificationsApi.getAll(); // Тип уже AppNotification[]
+			const data = await notificationsApi.getAll();
 			setNotifications(data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
 		} catch { setError('Не удалось загрузить уведомления'); }
 		finally { setLoading(false); }

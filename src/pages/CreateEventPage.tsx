@@ -8,7 +8,6 @@ import BottomNav from '../components/BottomNav';
 import { ApiError, eventsApi } from '../services/api';
 import type { EventBlock, BlockType } from '../types';
 
-// --- Модалка выбора типа блока ---
 function BlockTypeModal({ isOpen, onClose, onSelect }: { isOpen: boolean; onClose: () => void; onSelect: (type: BlockType) => void }) {
     if (!isOpen) return null;
 
@@ -46,7 +45,6 @@ function BlockTypeModal({ isOpen, onClose, onSelect }: { isOpen: boolean; onClos
     );
 }
 
-// --- Сортируемый блок контента ---
 function SortableBlock({ id, block, onEdit, onDelete, isEditing, onUpdateContent }: {
     id: string; block: EventBlock; onEdit: (id: string) => void; onDelete: (id: string) => void; isEditing: boolean; onUpdateContent: (content: any) => void;
 }) {

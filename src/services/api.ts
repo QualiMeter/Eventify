@@ -164,7 +164,6 @@ export const eventImagesApi = {
 };
 
 export const notificationsApi = {
-    // 👇 Явно указываем алиас в дженерике
     getAll: () => fetchApi<AppNotification[]>('/api/Notifications'),
 
     markAsRead: (id: string) =>

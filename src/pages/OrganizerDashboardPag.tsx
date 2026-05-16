@@ -85,8 +85,6 @@ export default function OrganizerDashboardPage() {
         });
     };
 
-    // ... existing code ...
-
     const totalParticipants = myEvents.reduce((sum, e) => sum + e.registeredCount, 0);
 
     return (

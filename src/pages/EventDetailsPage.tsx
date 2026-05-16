@@ -15,7 +15,6 @@ export default function EventDetailsPage() {
     const [isFavorite, setIsFavorite] = useState(false);
     const [togglingFav, setTogglingFav] = useState(false);
 
-    // Замени на свой хук авторизации
     const currentUser = { id: 'current-user-id', role: 'user' };
     const canEdit = event && (currentUser.role === 'admin' || currentUser.id === event.organizerId);
 
@@ -41,14 +40,14 @@ export default function EventDetailsPage() {
         try {
             const regs = await registrationsApi.getMyRegistrations();
             setAlreadyRegistered(regs.some(r => r.eventId === id));
-        } catch { /* ignore */ }
+        } catch { }
     };
 
     const checkFavorite = async () => {
         try {
             const fav = await favoritesApi.check(id!);
             setIsFavorite(fav);
-        } catch { /* ignore */ }
+        } catch { }
     };
 
     const handleRegister = async () => {
@@ -70,7 +69,7 @@ export default function EventDetailsPage() {
             setTogglingFav(true);
             const res = await favoritesApi.toggle(id);
             setIsFavorite(res.isFavorite);
-        } catch { /* ignore */ } finally { setTogglingFav(false); }
+        } catch { } finally { setTogglingFav(false); }
     };
 
     const formatDate = (d: string) => new Date(d).toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
