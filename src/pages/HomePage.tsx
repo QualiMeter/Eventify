@@ -104,7 +104,7 @@ export default function HomePage() {
 		};
 	}, [emblaApi, onSelect]);
 
-	const formatDate = (dateString: string) => {
+	const formatDate = async (dateString: string) => {
 		const date = new Date(dateString);
 		return date.toLocaleDateString('ru-RU', {
 			day: 'numeric',
