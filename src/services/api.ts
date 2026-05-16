@@ -8,6 +8,7 @@ import type {
     EventImage,
     ProblemDetails,
     LoginResponse,
+    Notification as AppNotification
 } from '../types';
 
 const API_BASE_URL = /*import.meta.env.VITE_API_URL ||*/ 'https://eventifybackend-events.up.railway.app';
@@ -160,6 +161,17 @@ export const eventImagesApi = {
         fetchApi(`/api/events/${eventId}/images/${mediaId}/primary`, {
             method: 'POST',
         }),
+};
+
+export const notificationsApi = {
+    // 👇 Явно указываем алиас в дженерике
+    getAll: () => fetchApi<AppNotification[]>('/api/Notifications'),
+
+    markAsRead: (id: string) =>
+        fetchApi<void>(`/api/Notifications/${id}/read`, { method: 'POST' }),
+
+    markAllAsRead: () =>
+        fetchApi<void>('/api/Notifications/read-all', { method: 'POST' }),
 };
 
 export const favoritesApi = {

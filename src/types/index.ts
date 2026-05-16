@@ -37,6 +37,15 @@ export interface EventImage {
     altText?: string | null;
 }
 
+export interface Notification {
+    id: string;
+    type: 'event_reminder' | 'application_status' | 'new_event_from_favorite' | 'system';
+    title: string;
+    message: string;
+    isRead: boolean;
+    createdAt: string;
+}
+
 export interface LoginRequest {
     email: string;
     password: string;
