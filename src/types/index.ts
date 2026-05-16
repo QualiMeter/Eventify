@@ -14,19 +14,19 @@ export interface User {
 export interface Event {
     id: string;
     title: string;
-    description?: string | null;
+    description: string | null;
     startAt: string;
     endAt: string;
-    location?: string | null;
+    location: string | null;
     format: 'online' | 'offline' | 'hybrid';
-    maxParticipants?: number | null;
-    selectionMethod?: 'free' | 'moderation' | 'competition';
     organizerId: string;
     organizerName: string;
-    status: 'draft' | 'published' | 'completed' | 'cancelled';
+    selectionMethod: 'free' | 'moderation' | 'competition';
+    maxParticipants: number | null;
     registeredCount: number;
-    image?: string;
-    images?: EventImage[];
+    image: string | null;
+    status: string;
+    blocks?: EventBlock[];
 }
 
 export interface EventImage {
@@ -103,4 +103,35 @@ export interface Registration {
     status: string;
     registeredAt: string;
     userId: string;
+}
+
+export type BlockType = 'text' | 'image' | 'carousel' | 'poll';
+
+export interface EventBlock {
+    id: string;
+    type: BlockType;
+    content: {
+        text?: string;
+        url?: string;
+        alt?: string;
+        images?: Array<{ url: string; alt: string }>;
+        question?: string;
+        options?: Array<{ text: string; votes: number }>;
+        total_votes?: number;
+    };
+    sort_order: number;
+}
+
+export interface CreateEventBlockDto {
+    type: BlockType;
+    content: Record<string, any>;
+    sort_order: number;
+}
+
+export interface UpdateEventBlocksDto {
+    blocks: CreateEventBlockDto[];
+}
+
+export interface EventWithBlocks extends Event {
+    blocks?: EventBlock[];
 }

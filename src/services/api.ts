@@ -48,7 +48,7 @@ async function fetchApi<T>(
             headers,
         });
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
+            const errorData = await response.json().catch(() => { });
             throw new ApiError(response.status, errorData);
         }
 
@@ -98,9 +98,15 @@ export const eventsApi = {
         fetchApi<Event>(`/api/Events/${id}`),
 
     create: (data: CreateEventDto) =>
-        fetchApi<Event>('/api/Events', {
+        fetchApi<Event>('/api/Events/create', {
             method: 'POST',
             body: JSON.stringify(data),
+        }),
+
+    updateBlocks: (eventId: string, blocks: Array<{ type: string; content: any; sort_order: number }>) =>
+        fetchApi<void>(`/api/Events/${eventId}/blocks`, {
+            method: 'PUT',
+            body: JSON.stringify({ blocks }),
         }),
 };
 
@@ -154,6 +160,17 @@ export const eventImagesApi = {
         fetchApi(`/api/events/${eventId}/images/${mediaId}/primary`, {
             method: 'POST',
         }),
+};
+
+export const favoritesApi = {
+    toggle: (eventId: string) =>
+        fetchApi<{ isFavorite: boolean }>(`/api/FavoriteEvents/${eventId}/favorite`, { method: 'POST' }),
+
+    check: (eventId: string) =>
+        fetchApi<boolean>(`/api/FavoriteEvents/${eventId}/is-favorite`),
+
+    getMy: () =>
+        fetchApi<Array<Event>>('/api/FavoriteEvents/my')
 };
 
 export { ApiError };

@@ -45,7 +45,7 @@ export default function HomePage() {
 	const loadEvents = async () => {
 		try {
 			setIsLoading(true);
-			const data = await eventsApi.getAll('published', 1, 50);
+			const data = (await eventsApi.getAll('published', 1, 50)).filter((e) => new Date(Date.now()) < new Date(e.startAt));
 			setEvents(data);
 		} catch (error) {
 			console.error('Failed to load events:', error);
@@ -354,9 +354,9 @@ export default function HomePage() {
 												<div className="flex items-center gap-2 mt-2">
 													<span className={`px-2 py-0.5 rounded text-xs font-medium ${event.format === 'online'
 														? 'bg-green-50 text-green-700'
-														: 'bg-blue-50 text-blue-700'
+														: (event.format === 'hybrid' ? 'bg-yellow-50 text-yellow-700' : 'bg-blue-50 text-blue-700')
 														}`}>
-														{event.format === 'online' ? 'Онлайн' : 'Офлайн'}
+														{event.format === 'online' ? 'Онлайн' : (event.format === 'hybrid' ? 'Гибрид' : 'Офлайн')}
 													</span>
 													{event.maxParticipants && (
 														<div className="flex items-center gap-1 text-gray-500 text-xs">
