@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-apk:
+  build-and-release:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout
@@ -34,18 +34,28 @@ jobs:
           java-version: "21"
 
       - name: 🔑 Decode Keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/release-key.jks
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/android-key.jks
 
       - name: 🔑 Grant Gradlew Permissions
         run: chmod +x ./android/gradlew
 
-      - name: 🔨 Build APK
-        run: cd android && ./gradlew assembleRelease --warning-mode=all
+      # 🔧 Фикс путей для Linux (если в репо попали Windows-слэши \ )
+      - name: 🔧 Fix Gradle Paths (CI)
+        run: |
+          sed -i 's/\\.\\\\node_modules/..\/node_modules/g' android/settings.gradle 2>/dev/null || true
+          sed -i "s|'.\\\\|'../|g" android/settings.gradle 2>/dev/null || true
+
+      - name: 🔨 Build Signed APK
+        run: cd android && ./gradlew assembleRelease
 
       - name: 📍 Find APK
         id: find_apk
         run: |
-          APK_PATH=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          APK_PATH=$(find android/app/build/outputs/apk/release -name "*.apk" -type f | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "::error::APK not found! Check build logs."
+            exit 1
+          fi
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
 
       - name: 🚀 Upload to GitHub Releases
@@ -55,5 +65,6 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           draft: false
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
