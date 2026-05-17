@@ -1,0 +1,56 @@
+name: 📱 Build & Release APK
+
+on:
+  push:
+    branches: [ mobile ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build React & Sync Capacitor
+        run: |
+          npm run build
+          npx cap sync android
+
+      - name: ☕ Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: 🔑 Grant Gradlew Permissions
+        run: chmod +x ./android/gradlew
+
+      - name: 🔨 Build APK
+        run: cd android && ./gradlew assembleRelease
+
+      - name: 📍 Find APK
+        id: find_apk
+        run: |
+          APK_PATH=$(find android/app/build/outputs/apk -name "*.apk" | head -n 1)
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Upload to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.find_apk.outputs.apk_path }}
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
