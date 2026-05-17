@@ -34,7 +34,7 @@ jobs:
           java-version: "21"
 
       - name: 🔑 Decode Keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/android-key.jks
+        run: printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\n\r' | base64 -d > android/app/android-key.jks
 
       - name: 🔑 Grant Gradlew Permissions
         run: chmod +x ./android/gradlew
