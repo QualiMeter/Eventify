@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     namespace = "com.hw.eventify"
     compileSdk = rootProject.ext.compileSdkVersion
+    
     defaultConfig {
         applicationId "com.hw.eventify"
         minSdkVersion rootProject.ext.minSdkVersion
