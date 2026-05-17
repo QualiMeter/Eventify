@@ -4,6 +4,15 @@ android {
     namespace = "com.hw.eventify"
     compileSdk = rootProject.ext.compileSdkVersion
 
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                output.outputFile.parent,
+                output.outputFile.name.replace(".apk", "eventify.apk"))
+        }
+    }
+
+
     defaultConfig {
         applicationId "com.hw.eventify"
         minSdkVersion rootProject.ext.minSdkVersion
