@@ -33,8 +33,14 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
-      - name: 🔑 Decode Keystore
-        run: printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\n\r' | base64 -d > android/app/android-key.jks
+      - name: 🔑 Decode & Verify Keystore
+        run: |
+          printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\n\r' | base64 -d > android/app/android-key.jks
+          if [ ! -s android/app/android-key.jks ]; then
+            echo "::error::Keystore file is empty or invalid. Check KEYSTORE_BASE64 secret."
+            exit 1
+          fi
+          echo "✅ Keystore decoded successfully ($(stat -c%s android/app/android-key.jks) bytes)"
 
       - name: 🔑 Grant Gradlew Permissions
         run: chmod +x ./android/gradlew
