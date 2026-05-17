@@ -13,7 +13,7 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
+      - name: 🟢 Setup Node.js 25
         uses: actions/setup-node@v4
         with:
           node-version: "25"
@@ -33,19 +33,26 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
-      - name: 🔑 Decode & Verify Keystore
+      - name: 🔑 Decode Keystore (Python fallback for stability)
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\n\r' | base64 -d > android/app/android-key.jks
+          python3 -c "
+          import base64, os
+          b64 = os.environ['KEYSTORE_B64'].replace(' ', '').replace('\n', '').replace('\r', '')
+          with open('android/app/android-key.jks', 'wb') as f:
+              f.write(base64.b64decode(b64))
+          "
           if [ ! -s android/app/android-key.jks ]; then
-            echo "::error::Keystore file is empty or invalid. Check KEYSTORE_BASE64 secret."
+            echo "::error::Keystore is empty or invalid. Check KEYSTORE_BASE64 secret."
             exit 1
           fi
-          echo "✅ Keystore decoded successfully ($(stat -c%s android/app/android-key.jks) bytes)"
+          echo "✅ Keystore decoded ($(stat -c%s android/app/android-key.jks) bytes)"
 
       - name: 🔑 Grant Gradlew Permissions
         run: chmod +x ./android/gradlew
 
-      - name: 🔧 Fix Gradle Paths (CI)
+      - name: 🔧 Fix Gradle Paths (CI safety)
         run: |
           sed -i 's/\\.\\\\node_modules/..\/node_modules/g' android/settings.gradle 2>/dev/null || true
           sed -i "s|'.\\\\|'../|g" android/settings.gradle 2>/dev/null || true
@@ -58,7 +65,7 @@ jobs:
         run: |
           APK_PATH=$(find android/app/build/outputs/apk/release -name "*.apk" -type f | head -n 1)
           if [ -z "$APK_PATH" ]; then
-            echo "::error::APK not found! Check build logs."
+            echo "::error::APK not found!"
             exit 1
           fi
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
