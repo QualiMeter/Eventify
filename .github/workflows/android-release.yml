@@ -39,7 +39,6 @@ jobs:
       - name: 🔑 Grant Gradlew Permissions
         run: chmod +x ./android/gradlew
 
-      # 🔧 Фикс путей для Linux (если в репо попали Windows-слэши \ )
       - name: 🔧 Fix Gradle Paths (CI)
         run: |
           sed -i 's/\\.\\\\node_modules/..\/node_modules/g' android/settings.gradle 2>/dev/null || true
